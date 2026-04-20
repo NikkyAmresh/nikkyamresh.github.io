@@ -1,0 +1,44 @@
+---
+import SectionHeading from '@/components/SectionHeading.astro';
+import { site } from '@/lib/site';
+
+const links = [
+  { label: 'Email', href: `mailto:${site.email}`, value: site.email },
+  { label: 'GitHub', href: site.socials.github, value: '@NikkyAmresh' },
+  { label: 'LinkedIn', href: site.socials.linkedin, value: 'nikky-amresh' },
+  { label: 'Twitter/X', href: site.socials.twitter, value: '@NikkyAmresh' },
+  { label: 'Resume', href: '/resume.pdf', value: 'PDF · 2 pages' },
+];
+---
+
+<section class="mx-auto max-w-prose px-4 py-12 sm:px-6 lg:px-8" id="contact">
+  <SectionHeading label="Contact" title="Let's talk" />
+
+  <p class="mt-6 text-text-muted">
+    Currently open to conversations about SDE 2 / SDE 3 roles — backend, platforms,
+    AI tooling, or anything end-to-end.
+  </p>
+
+  <ul class="mt-8 divide-y divide-border border-y border-border">
+    {
+      links.map((l) => (
+        <li>
+          <a
+            href={l.href}
+            target={l.href.startsWith('http') || l.href.endsWith('.pdf') ? '_blank' : undefined}
+            rel="noopener"
+            class="group flex items-center justify-between py-3 no-underline transition hover:bg-bg-subtle"
+          >
+            <span class="font-mono text-xs uppercase tracking-wider text-text-subtle">{l.label}</span>
+            <span class="text-sm text-text group-hover:text-accent">
+              {l.value}
+              <span class="ml-1 inline-block translate-x-0 opacity-0 transition group-hover:translate-x-1 group-hover:opacity-100">
+                →
+              </span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

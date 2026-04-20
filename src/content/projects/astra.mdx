@@ -1,0 +1,76 @@
+---
+title: Astra
+tagline: Personal AI task manager that parses plain English and auto-links tasks, people, and goals into a knowledge graph. Runs fully local.
+stack: [Node.js, TypeScript, SQLite+FTS5, Groq/Claude, Google Calendar, Vue.js]
+status: active
+featured: true
+order: 1
+links:
+  github: https://github.com/NikkyAmresh/astra
+cover:
+  placeholder: AS
+date: 2025-06-01
+---
+
+## The problem
+
+I&rsquo;ve bounced between Todoist, Notion, Things, and plain Markdown for years. None of them
+kept up with the way my own work actually flows — tasks are intertwined with people, with ongoing
+projects, with stray notes from a meeting three weeks ago. Generic task apps want me to be tidy;
+my brain isn&rsquo;t.
+
+I wanted a tool that:
+
+- Took natural language as input, not rigid forms.
+- Linked related things automatically instead of making me tag everything.
+- Ran fully local — my task list isn&rsquo;t something I want sitting in someone else&rsquo;s cloud.
+
+## What it does
+
+Type something like:
+
+> *&ldquo;prep quarterly review for team by Friday EOD, loop in Sarah&rdquo;*
+
+Astra parses that into a structured task — priority HIGH, due date Friday, linked to
+&ldquo;quarterly review&rdquo; (project) and Sarah (person). If Sarah already exists, it reuses her;
+if not, it creates a stub and keeps building the graph over time.
+
+Ask &ldquo;what&rsquo;s next with Sarah?&rdquo; and it actually knows.
+
+## Architecture
+
+- **Backend:** Node.js + TypeScript, Express routes, SQLite with FTS5 for full-text search.
+- **Agent layer:** Groq/Claude for parsing + follow-up suggestions, with a recursive-context
+  retrieval loop that pulls related entities before calling the LLM.
+- **Knowledge graph:** SQLite tables (tasks, goals, people, interactions, memories) with a
+  `links` table for the edges. Auto-linking runs at ingest time based on name similarity and
+  co-occurrence heuristics.
+- **Sync:** Optional bi-directional Google Calendar + Tasks integration over OAuth.
+- **Frontend:** Vue.js dashboard — task list, chat interface, relationship view, productivity
+  analytics.
+
+## Interesting problems I solved
+
+**FTS5 indexing without blowing up on every edit.** Early on I naively reindexed every task on
+every save. Latency went through the roof. Switched to triggers + partial reindex, keeping the
+search snappy even with a decade of pretend-future data seeded in.
+
+**Ingestion that fails gracefully.** The NLP parser is an LLM call — it can hallucinate,
+misattribute, or just fail. I kept the fallback cheap: if parsing doesn&rsquo;t return confident
+structure, it saves the raw text as a note and flags it for review, rather than creating a bad
+task. Trust-through-degradation.
+
+**Knowledge graph that doesn&rsquo;t turn into soup.** Auto-linking is seductive and dangerous —
+over-link and you get a Facebook-for-your-tasks. I kept the link types discrete (`task↔person`,
+`task↔goal`, `task↔task`) and required evidence before creating edges.
+
+## What I&rsquo;d do differently
+
+- Ship the Vue dashboard as a Tauri desktop app from day one — browser hosting is friction I didn&rsquo;t need.
+- Store prompts alongside outputs for debugging. I got burned twice by &ldquo;why did it tag this with that?&rdquo;
+  that I couldn&rsquo;t answer.
+- Write the schema migration layer first, not third.
+
+## Links
+
+- [GitHub](https://github.com/NikkyAmresh/astra)

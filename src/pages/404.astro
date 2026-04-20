@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — Not found">
+  <section class="mx-auto flex max-w-prose flex-col items-start px-4 py-24 sm:px-6 lg:px-8">
+    <p class="font-mono text-2xs uppercase tracking-[0.18em] text-accent">404</p>
+    <h1 class="mt-2 text-4xl font-medium tracking-tight sm:text-5xl">That&rsquo;s a null route.</h1>
+    <p class="mt-6 max-w-md text-text-muted">
+      Either the page moved or I never shipped it. Either way, nothing here to render.
+    </p>
+
+    <div class="mt-10 flex flex-wrap gap-4 font-mono text-sm">
+      <a href="/" class="text-accent no-underline hover:underline underline-offset-4">
+        → Home
+      </a>
+      <a href="/#projects" class="text-accent no-underline hover:underline underline-offset-4">
+        → Projects
+      </a>
+      <a
+        href="https://github.com/NikkyAmresh"
+        target="_blank"
+        rel="noopener"
+        class="text-accent no-underline hover:underline underline-offset-4"
+      >
+        → GitHub
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,27 @@
+{
+  "name": "nikkyamresh-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal portfolio of Nikky Amresh — nikkyamresh.github.io",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^4.16.0",
+    "@astrojs/mdx": "^3.1.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/check": "^0.9.0",
+    "typescript": "^5.6.0",
+    "tailwindcss": "^3.4.0",
+    "@fontsource-variable/inter": "^5.1.0",
+    "@fontsource-variable/jetbrains-mono": "^5.1.0",
+    "@tailwindcss/typography": "^0.5.15"
+  }
+}

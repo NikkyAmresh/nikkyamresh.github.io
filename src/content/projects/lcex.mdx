@@ -1,0 +1,72 @@
+---
+title: LeetCode Practice Extension
+tagline: A VS Code extension for LeetCode practice — 40+ commands, cloud sync, interview mode, AI-assisted hints. Live on VS Code Marketplace and Open VSX.
+stack: [TypeScript, VS Code API, LeetCode API, Firestore, Chrome Extension]
+status: shipped
+featured: true
+order: 2
+links:
+  github: https://github.com/NikkyAmresh/lcex
+  marketplace: https://marketplace.visualstudio.com/items?itemName=NikkyAmresh.leetcode-practice
+  openvsx: https://open-vsx.org/extension/nikkyamresh/leetcode-practice
+cover:
+  src: /assets/projects/lcex-marketplace.png
+date: 2024-12-01
+---
+
+## The problem
+
+I was practicing LeetCode in the browser and writing solutions in VS Code, copy-pasting back
+and forth like an idiot. The context-switch cost was killing my flow — and the actual act of
+solving a problem is 5% the fun of algorithm work; I wanted to spend more time on the solve and
+less on the tooling around it.
+
+## What it does
+
+A full VS Code extension, shipped to the Marketplace and Open VSX. It:
+
+- Fetches problems from LeetCode&rsquo;s (private) GraphQL API
+- Generates solution templates in TypeScript, JavaScript, Python, or C++ with example test cases wired up
+- Runs examples inline in the editor terminal, highlights pass/fail
+- Tracks your progress with XP, streaks, and per-problem timestamps
+- Syncs everything through Firestore so stats follow you across machines
+- Supports an &ldquo;interview mode&rdquo; — timed problems + auto-generated post-mortem reports in a custom `.lcireport` file
+
+And because I kept getting annoyed by having to copy URLs, there&rsquo;s a companion Chrome
+extension: one-click &ldquo;Open in VS Code&rdquo; on any leetcode.com problem page.
+
+## Architecture
+
+- **Core:** TypeScript, the VS Code Extension API, 40+ registered commands.
+- **Custom editors** for `.leetcode`, `.lcInterview`, `.lcireport`, and `.hint` file types.
+- **API layer:** wraps the private LeetCode GraphQL endpoint — problem fetch, user stats, daily challenge.
+- **Cloud sync:** Firestore. Stats, streaks, and saved problem state. Optional; works offline too.
+- **Chrome extension:** thin bridge that launches a `vscode://` URI handler to open problems in-editor.
+- **Distribution:** published to both Microsoft VS Code Marketplace and Open VSX (so it works in VSCodium, Cursor, Gitpod, Theia).
+
+## Interesting problems I solved
+
+**Template generation that matches LeetCode&rsquo;s test harness.** LeetCode&rsquo;s problem metadata
+doesn&rsquo;t give you ready-to-run function signatures — you have to reconstruct them from the
+problem description and sample code. I parse the language&rsquo;s starter stub and walk the AST
+to pull out the entry point, then generate matching test case bindings.
+
+**Cloud sync without making it a liability.** Firestore is easy to reach for, but losing a
+user&rsquo;s solve history to a sync bug would be unforgivable. Local storage is the source of
+truth; Firestore is write-behind. Conflict resolution favors &ldquo;more progress, less regress&rdquo;.
+
+**Distributing to two registries.** Most developers only ship to the Microsoft Marketplace. I
+ship to Open VSX too — takes a signed package upload and a GitHub-verified publisher. Small
+chore, huge reach gain (VSCodium, Cursor users get the extension natively).
+
+## What I&rsquo;d do differently
+
+- Build the extension with `esbuild` bundling from day one, not rely on `tsc --watch`.
+  First cold-start was embarrassingly slow until I bundled.
+- Write acceptance tests. Most of my bugs were in command wiring I&rsquo;d have caught trivially.
+
+## Links
+
+- [GitHub](https://github.com/NikkyAmresh/lcex)
+- [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=NikkyAmresh.leetcode-practice)
+- [Open VSX](https://open-vsx.org/extension/nikkyamresh/leetcode-practice)

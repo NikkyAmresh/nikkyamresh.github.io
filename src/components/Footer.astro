@@ -1,0 +1,16 @@
+---
+import { site } from '@/lib/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border/60 mt-16">
+  <div class="mx-auto flex max-w-layout flex-col gap-2 px-4 py-6 text-xs text-text-subtle sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+    <p class="font-mono">
+      © {year} {site.name}
+    </p>
+    <p class="font-mono">
+      Built with <a href="https://astro.build" target="_blank" rel="noopener" class="underline hover:text-text-muted">Astro</a>.
+      <a href="https://github.com/NikkyAmresh/nikkyamresh.github.io" target="_blank" rel="noopener" class="underline hover:text-text-muted">Source</a>.
+    </p>
+  </div>
+</footer>

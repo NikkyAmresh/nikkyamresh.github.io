@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout
+  title="Writing"
+  description="Notes from the build — AI tooling, backend engineering, stuff I've shipped."
+>
+  <section class="mx-auto max-w-prose px-4 py-16 sm:px-6 lg:px-8">
+    <p class="font-mono text-2xs uppercase tracking-[0.18em] text-accent">Writing</p>
+    <h1 class="mt-2 text-3xl font-medium tracking-tight sm:text-4xl">Notes from the build</h1>
+    <p class="mt-4 text-text-muted">
+      Things I&rsquo;ve learned shipping — AI tooling, backend, and the places I&rsquo;ve been wrong.
+    </p>
+
+    {
+      posts.length === 0 ? (
+        <div class="mt-12 rounded-lg border border-dashed border-border p-8 text-center">
+          <p class="font-mono text-2xs uppercase tracking-[0.18em] text-text-subtle">Coming soon</p>
+          <p class="mt-2 text-sm text-text-muted">
+            First post on the way:{' '}
+            <span class="text-text">&ldquo;Why I&rsquo;m running MCP in production before it was cool&rdquo;</span>.
+          </p>
+        </div>
+      ) : (
+        <ul class="mt-12 space-y-8">
+          {posts.map((p) => (
+            <li class="border-l-2 border-border pl-4 transition hover:border-accent">
+              <a href={`/writing/${p.slug}`} class="no-underline">
+                <h2 class="text-lg font-medium text-text transition group-hover:text-accent">{p.data.title}</h2>
+                <p class="mt-1 text-sm text-text-muted">{p.data.description}</p>
+                <p class="mt-2 font-mono text-2xs uppercase tracking-wider text-text-subtle">
+                  {p.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>

@@ -1,0 +1,74 @@
+---
+title: Database & Developer Tools
+tagline: Several VS Code extensions for database-heavy workflows — SQL panels, package inspectors, JWT editors. The fun part was pushing the custom editor API.
+stack: [TypeScript, VS Code API, PostgreSQL, sql.js, Webviews]
+status: active
+featured: true
+order: 5
+links:
+  github: https://github.com/NikkyAmresh/mext
+cover:
+  placeholder: DB
+date: 2025-04-15
+---
+
+## The problem
+
+Working on a backend platform with its own config files, sync packages, and SQL snippets meant
+constantly alt-tabbing: text editor for config, different tool for SQL, third tool for JWT
+inspection, something else for package integrity. I wanted all of it inside VS Code — native,
+with keyboard shortcuts, and without turning my editor into a browser.
+
+## What it does
+
+A family of VS Code extensions giving custom editor experiences to:
+
+- **Config files** (`.mira`) — typed form UI with validation, not raw YAML.
+- **Package manifests** (`.l2c.pkg`, `.c2l.pkg` for app-to-cloud and cloud-to-app sync
+  packages) — preview contents, sync status, diff against remote.
+- **Package lists** (`.l2c.list`, `.c2l.list`) — browse packages, one-click open-in-editor.
+- **SQL query runner** (`.miradb`) — write SQL, `Ctrl+Enter` to execute, results in a side
+  panel. Connection switcher across dev / staging / prod.
+- **JWT editor** — paste a token, see decoded header + payload, validate signature, copy claims.
+
+Each extension ships its own file icons and syntax highlighting contributions so things look
+right in the Explorer.
+
+## Architecture
+
+- **TypeScript + VS Code API** — `CustomEditorProvider` for each file type, backed by
+  webview-based UIs.
+- **Webviews** for the richer panels (SQL runner, package inspector). Message-passing between
+  webview and extension host, strict serialization.
+- **PostgreSQL client** on the extension-host side, with connection profiles stored in VS
+  Code&rsquo;s secret storage. `sql.js` fallback for lightweight local queries.
+- **adm-zip** for peeking inside sync packages without unpacking to disk.
+- **Separate activation events** so an extension only loads when you open a file it cares about.
+
+## Interesting problems I solved
+
+**Making custom editors feel native.** Webviews are second-class citizens in VS Code — no
+default keyboard shortcuts, no native-feeling styling, awkward focus management. I ended up
+writing a small set of shared webview primitives (buttons, inputs, panels) that read VS
+Code&rsquo;s theme tokens so the UI stays consistent in light, dark, and high-contrast themes.
+
+**Connection switching without leaking credentials.** The temptation is to store Postgres
+URIs in `.vscode/settings.json`. Don&rsquo;t. Credentials live in VS Code&rsquo;s secret storage;
+only connection names are in settings. Switching dev → prod is a dropdown; the extension
+looks up the cred at use time.
+
+**Progressive disclosure in the SQL runner.** First version was &ldquo;text area + run
+button + results table.&rdquo; Too much screen real estate for casual queries. I moved the
+results panel into a collapsible drawer and added a history mode — most queries are one-line
+lookups where you just want the answer, not a full BI UI.
+
+## What I&rsquo;d do differently
+
+- Bundle the webviews with Vite or esbuild from the start. The DX of unbundled webview code
+  is painful once you&rsquo;re past ~300 LOC.
+- Write more E2E tests. Extension testing is tedious but the bugs that slipped through were all
+  in message passing, which automated tests would have caught.
+
+## Links
+
+- [GitHub](https://github.com/NikkyAmresh/mext)

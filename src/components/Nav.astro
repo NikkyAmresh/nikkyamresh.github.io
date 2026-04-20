@@ -1,0 +1,27 @@
+---
+import { site } from '@/lib/site';
+import ThemeToggle from '@/components/ThemeToggle.astro';
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-border/60 bg-bg/80 backdrop-blur">
+  <div class="mx-auto flex h-14 max-w-layout items-center justify-between px-4 sm:px-6 lg:px-8">
+    <a href="/" class="font-mono text-sm font-medium text-text no-underline">
+      <span class="text-text-subtle">~/</span>nikkyamresh
+    </a>
+    <nav class="flex items-center gap-1 sm:gap-2">
+      {
+        site.nav.map((item) => (
+          <a
+            href={item.href}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener' : undefined}
+            class="rounded-md px-2 py-1 text-sm text-text-muted transition hover:bg-bg-subtle hover:text-text sm:px-3"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>

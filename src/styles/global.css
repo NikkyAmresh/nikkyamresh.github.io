@@ -1,0 +1,56 @@
+/* Fonts: load via fontsource-variable (self-hosted WOFF2 via Astro build) */
+@import '@fontsource-variable/inter/index.css';
+@import '@fontsource-variable/jetbrains-mono/index.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* CSS custom props for themes */
+  :root {
+    color-scheme: light;
+    --color-bg: 255 255 255;
+    --color-bg-subtle: 245 245 244;
+    --color-surface: 255 255 255;
+    --color-border: 231 229 228;
+    --color-text: 10 10 10;
+    --color-text-muted: 68 68 68;
+    --color-text-subtle: 120 113 108;
+  }
+
+  :root.dark {
+    color-scheme: dark;
+    --color-bg: 10 10 10;
+    --color-bg-subtle: 23 23 23;
+    --color-surface: 15 15 15;
+    --color-border: 38 38 38;
+    --color-text: 231 229 228;
+    --color-text-muted: 168 162 158;
+    --color-text-subtle: 120 113 108;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-bg text-text font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  ::selection {
+    @apply bg-accent/25 text-text;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/50 ring-offset-2 ring-offset-bg rounded-sm;
+  }
+
+  a {
+    text-underline-offset: 3px;
+  }
+}

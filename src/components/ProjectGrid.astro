@@ -1,0 +1,29 @@
+---
+import SectionHeading from '@/components/SectionHeading.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects', ({ data }) => data.featured)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<section class="mx-auto max-w-layout px-4 py-12 sm:px-6 lg:px-8" id="projects">
+  <SectionHeading label="Selected work" title="Things I've built" />
+
+  <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      projects.map((p) => (
+        <ProjectCard
+          title={p.data.title}
+          tagline={p.data.tagline}
+          stack={p.data.stack}
+          href={`/projects/${p.slug}`}
+          coverSrc={p.data.cover.src}
+          coverPlaceholder={p.data.cover.placeholder}
+          badge={p.data.status === 'shipped' ? 'Shipped' : p.data.status === 'active' ? 'Active' : undefined}
+        />
+      ))
+    }
+  </div>
+</section>

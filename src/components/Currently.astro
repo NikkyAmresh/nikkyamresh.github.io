@@ -1,0 +1,42 @@
+---
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const highlights = [
+  {
+    title: 'QT report generation: 2m 16s → 18.9s (86% faster)',
+    detail:
+      'Profiled the report pipeline, identified the dominant cost (repeated per-student queries), refactored to a single batched aggregation. Shipped the win quietly.',
+  },
+  {
+    title: 'Built MCP (Model Context Protocol) servers for dev workflows',
+    detail:
+      'Jira triage, PR review/comment automation, commit-log analysis, and LLM-backed Confluence ops — running in production since early 2026, before most teams had touched MCP.',
+  },
+  {
+    title: 'Owned backend for the Computational Thinking product',
+    detail:
+      'Amazon Feature Engineering partnership. Designed APIs, shipped features to 100,000+ students, handled checkpoint lifecycle + impact tracking end-to-end.',
+  },
+];
+---
+
+<section class="mx-auto max-w-prose px-4 py-12 sm:px-6 lg:px-8" id="work">
+  <SectionHeading label="Currently" title="At Mindspark" />
+
+  <ul class="mt-8 space-y-6">
+    {
+      highlights.map((h) => (
+        <li class="border-l-2 border-border pl-4 transition hover:border-accent">
+          <h3 class="font-medium text-text">{h.title}</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-text-muted">{h.detail}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-6 text-sm text-text-subtle">
+    Full work history in the
+    <a href="/resume.pdf" target="_blank" rel="noopener" class="underline decoration-dotted underline-offset-4 hover:text-text">
+      resume</a>.
+  </p>
+</section>

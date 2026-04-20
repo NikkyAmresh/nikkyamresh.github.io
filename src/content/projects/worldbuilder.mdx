@@ -1,0 +1,74 @@
+---
+title: WorldBuilder
+tagline: A C++ plugin for Unreal Engine 5 — click in the viewport to draw road networks with auto-junctions, snapping, and spline-based mesh generation. Also does buildings.
+stack: [C++, Unreal Engine 5, Spline Mesh, Dynamic Mesh, Python]
+status: active
+featured: true
+order: 3
+links:
+  github: https://github.com/NikkyAmresh/WorldBuilder
+cover:
+  placeholder: WB
+date: 2025-03-10
+---
+
+## The problem
+
+Hand-placing roads in Unreal&rsquo;s level editor is tedious, and the existing marketplace
+plugins for procedural roads are either expensive, bloated, or miss the editor UX I wanted.
+I wanted a &ldquo;click, click, road&rdquo; tool that felt native — extend, split, snap — and that
+also handled buildings so I could block out a whole neighborhood in a morning.
+
+## What it does
+
+A UE5 editor-mode plugin with two main tools:
+
+- **Point Capture Tool** — click in the viewport to place road points. Roads extend as you go;
+  click an existing road to split it; click near an endpoint to snap and join. Dynamic junction
+  meshes get generated at intersections automatically.
+- **Building Generator** — three modes (spline-based, polygon-based, area-fill). Choose wall
+  meshes, door frequency, floor heights, roof style. Presets save combinations for reuse.
+
+Plus a Measure Distance tool because I got tired of eyeballing scale in a big level.
+
+## Architecture
+
+- **Editor Mode:** a proper `UEdMode` subclass so it lives in the mode palette next to
+  Landscape/Foliage.
+- **Road system:** splines drive a procedural mesh. Multiple road types (flyover, tunnel,
+  city, countryside) — each type is a config struct with its own mesh params, material, lane
+  count, sidewalk.
+- **Junctions:** when two roads meet within tolerance, I compute the intersection polygon and
+  build a dynamic mesh for the junction cap, stitched to both splines. That was the hardest
+  part to get looking clean.
+- **Building system:** spline or polygon defines the footprint; a generator walks the perimeter
+  placing wall meshes; interior floors/stairs added based on height.
+- **Python utilities:** for advanced batch generation — &ldquo;give me 200 houses in this grid&rdquo;
+  without clicking 200 times.
+
+## Interesting problems I solved
+
+**Junction meshes that don&rsquo;t T-bone each other.** Two perpendicular roads meeting is easy;
+three or four roads converging at odd angles is not. I ended up computing an approximated
+centroid, projecting each road&rsquo;s incoming cross-section inward, and triangulating the
+bounded polygon. Not analytically perfect but visually clean and fast.
+
+**Smart snapping without being annoying.** Snap-to-grid is fine but it fights user intent.
+Tolerance-based snap-to-existing (with a clear visual cue when the snap will engage) turned
+out to be the right trade-off.
+
+**Learning C++ in UE5&rsquo;s module system from scratch.** I&rsquo;m a Node/TypeScript engineer
+by day. UE5 has its own macros (`UPROPERTY`, `UCLASS`), garbage collection semantics, and
+build system. The learning curve is real — but procedural geometry was the carrot that pulled
+me through.
+
+## What I&rsquo;d do differently
+
+- Start with a slice of vertical — a single road type, junctions, done — before adding
+  configurable road types. I scope-crept early.
+- Write unit tests for the junction math. Debugging a triangulation bug in a 3D editor by eye
+  is a bad time.
+
+## Links
+
+- [GitHub](https://github.com/NikkyAmresh/WorldBuilder)

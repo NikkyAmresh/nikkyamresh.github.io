@@ -1,0 +1,74 @@
+---
+title: Storyboard
+tagline: A 5-stage pipeline that turns a story prompt into an illustrated comic with narration and a final video. Orchestrates ComfyUI, FFmpeg, LLMs, and Instagram.
+stack: [Node.js, Express + SSE, ComfyUI, FFmpeg, Groq/Claude/Ollama, Meta Graph API, SQLite]
+status: active
+featured: true
+order: 4
+links:
+  github: https://github.com/NikkyAmresh/nodeimg
+cover:
+  placeholder: SB
+date: 2025-09-01
+---
+
+## The problem
+
+I wanted to auto-generate illustrated comic shorts from text prompts — not because the world
+needs more AI slop, but because the orchestration problem was interesting: ComfyUI running on
+a remote GPU, FFmpeg doing composition, an LLM doing scene planning, text-to-speech doing
+narration, and Meta&rsquo;s Graph API doing the publishing. Making all of those cooperate without
+the whole pipeline dying on the second run was the real project.
+
+## What it does
+
+Give it a one-paragraph story. It produces a posted Instagram reel (if you want) with:
+
+1. **Scene breakdown** — LLM splits the story into 5-8 panels with visual descriptions.
+2. **Character consistency** — portraits generated up front, referenced via FLUX-Pulid / ComfyUI workflows.
+3. **Panel composition** — per-panel image generation, framed and titled.
+4. **Captions + TTS** — Chatterbox or Piper turns captions into audio.
+5. **Video composition** — FFmpeg stitches images, adds Ken Burns animation, mixes narration with MusicGen&rsquo;s background track, outputs MP4.
+6. **Publish** — Instagram Graph API v21 uploads + publishes as a reel.
+
+A small Express server exposes all of this, streams progress via SSE, and stores a prompt/output
+library in SQLite.
+
+## Architecture
+
+- **Orchestrator:** Node.js + Express. Each pipeline stage is a module with a stable contract
+  (takes `sessionId` and inputs, returns outputs keyed in SQLite).
+- **ComfyUI dispatch:** workflows are JSON templates; I inject node IDs and parameters at runtime,
+  POST to ComfyUI&rsquo;s `/prompt` endpoint, then poll `/history` until completion. Multi-workflow
+  support for FLUX, FLUX-Pulid, and animate-anything.
+- **FFmpeg layer:** programmatic command composition for Ken Burns, concat filtergraphs, audio
+  mixing with ducking.
+- **LLM router:** model switcher for Groq / Anthropic / Ollama. Same interface, runtime selection
+  based on task (fast/cheap vs. quality).
+- **SSE:** real-time status updates to the UI without Websockets — simpler for a single-user tool.
+
+## Interesting problems I solved
+
+**Keeping state consistent across flaky services.** ComfyUI occasionally drops jobs. Instagram
+rate-limits. LLMs time out. I built every stage as idempotent — if a session has already
+completed stage 3 and stage 4 crashes, you resume at stage 4 without redoing the image
+generation. SQLite stores per-stage outputs as a checkpoint.
+
+**Dynamic ComfyUI workflow patching.** ComfyUI&rsquo;s JSON format is verbose and node-ID-dependent.
+I keep template workflows as starting points and run a JSON-patch step at runtime — replacing
+node inputs with my session data. This keeps the orchestrator decoupled from ComfyUI&rsquo;s
+internal graph.
+
+**Never re-rendering content I already have.** Character portraits get cached by `(character_description, style)` hash. Panels get cached by `(scene_description, character_refs)`. A re-run that changes one panel only re-renders that panel.
+
+## What I&rsquo;d do differently
+
+- Build the pipeline as a proper DAG runner from the start. I simulated one with sequential
+  stage calls; a real DAG would handle branching (narration can run in parallel with video
+  comp) naturally.
+- Use a task queue (BullMQ or similar) instead of in-process promises. Worked for me, but a
+  real worker pool would let me parallelize ComfyUI calls across multiple GPU backends.
+
+## Links
+
+- [GitHub](https://github.com/NikkyAmresh/nodeimg)
