@@ -1,0 +1,216 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import StatPanel from '@/components/StatPanel.astro';
+
+const headlineStats = [
+  { label: 'Participating teams', value: '137', note: 'NoEscape CTF 2022' },
+  { label: 'Participants', value: '400+', note: 'from 25+ countries' },
+  { label: 'CTFtime weight', value: '20.17', note: 'first-run event rating' },
+  { label: 'Core team', value: '2', note: 'organizers' },
+];
+
+const teamStats = [
+  { label: 'Team', value: 'F7 Conquerors', note: 'CTFtime team 206244' },
+  { label: 'India rank (current)', value: '#87', note: '2026 year-to-date' },
+  { label: 'India rank (best)', value: '#20', note: '2016–2017' },
+  { label: 'Events, all time', value: '60+', note: 'across team history' },
+];
+
+// CTFs the team played while I was involved (2022–2023)
+const eventsCompeted = [
+  { year: 2023, name: 'CSAW CTF Qualification Round', weight: '23.76' },
+  { year: 2023, name: 'COMPFEST CTF', weight: '14.45' },
+  { year: 2022, name: 'ASIS CTF Finals', weight: '93.32' },
+  { year: 2022, name: 'X-MAS CTF', weight: '24.34' },
+  { year: 2022, name: 'ISITDTU CTF 2022 Quals', weight: '40.70' },
+  { year: 2022, name: 'MetaRed International CTF', weight: '35.21' },
+  { year: 2022, name: 'p4ctf 2022', weight: '57.74' },
+  { year: 2022, name: 'EKOPARTY CTF 2022', weight: '50.00' },
+];
+
+const profiles = [
+  {
+    name: 'CTFtime — Team F7 Conquerors',
+    href: 'https://ctftime.org/team/206244',
+    handle: 'team 206244',
+  },
+  {
+    name: 'CTFtime — NoEscape CTF 2022 (organized)',
+    href: 'https://ctftime.org/event/1822/',
+    handle: 'event 1822 · jeopardy · online+onsite',
+  },
+  {
+    name: 'NoEscape CTF archive',
+    href: 'https://noescape.live/',
+    handle: 'noescape.live',
+  },
+  {
+    name: 'GitHub',
+    href: 'https://github.com/NikkyAmresh',
+    handle: '@NikkyAmresh',
+  },
+  {
+    name: 'LinkedIn',
+    href: 'https://linkedin.com/in/nikky-amresh',
+    handle: 'nikky-amresh',
+  },
+];
+---
+
+<BaseLayout
+  title="Security & CTFs"
+  description="Cybersecurity work and CTF history — organizing NoEscape CTF 2022, team F7 Conquerors, SIH 2022 Grand Finale, and more."
+>
+  <article class="mx-auto max-w-prose px-4 pb-20 pt-12 sm:px-6 sm:pt-16 lg:px-8">
+    <!-- Hero -->
+    <header>
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-accent">Security &amp; CTFs</p>
+      <h1 class="mt-2 text-3xl font-medium tracking-tight sm:text-4xl">
+        Cybersecurity is how I got into code.
+      </h1>
+      <p class="mt-5 text-lg leading-relaxed text-text-muted">
+        Before I was writing backend systems, I was breaking them. I ran my first CTF challenge
+        in college, got hooked, ended up on a team, and eventually co-organized one of my own.
+        That background shapes how I write production software now — I assume things break, I
+        look for the boundary conditions, and I don&rsquo;t trust inputs.
+      </p>
+    </header>
+
+    <!-- NECTF feature -->
+    <section class="mt-14">
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-text-subtle">Feature</p>
+      <h2 class="mt-2 text-2xl font-medium tracking-tight sm:text-3xl">
+        NoEscape CTF 2022
+        <span class="text-text-subtle">/</span>
+        <span class="font-mono text-base text-text-muted">NECTF</span>
+      </h2>
+      <p class="mt-4 text-text-muted">
+        A jeopardy-style international CTF organized out of Roorkee Institute of Technology in November 2022.
+        Two-person core team. 24-hour online event with a parallel onsite component — 137 teams registered on
+        CTFtime, 400+ active participants from 25+ countries competing on challenges in web, pwn, forensics,
+        steganography, crypto, OSINT, and trivia.
+      </p>
+
+      <div class="mt-8">
+        <StatPanel stats={headlineStats} />
+      </div>
+
+      <p class="mt-8 text-text-muted">
+        The hard part wasn&rsquo;t writing challenges. It was everything else: infrastructure that
+        didn&rsquo;t collapse under load, scoring and flag-submission that worked under partitions,
+        a communications plan for 25+ time zones, and judging escalations at 3 AM. I learned more
+        about running reliable systems from that weekend than from most production incidents since.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-4 font-mono text-sm">
+        <a href="https://ctftime.org/event/1822/" target="_blank" rel="noopener" class="text-accent no-underline hover:underline underline-offset-4">
+          CTFtime event →
+        </a>
+        <a href="https://noescape.live/" target="_blank" rel="noopener" class="text-accent no-underline hover:underline underline-offset-4">
+          noescape.live →
+        </a>
+        <a href="https://blog.aravindha.in/noescape-live/" target="_blank" rel="noopener" class="text-accent no-underline hover:underline underline-offset-4">
+          A competitor writeup →
+        </a>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="mt-16">
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-text-subtle">Team</p>
+      <h2 class="mt-2 text-2xl font-medium tracking-tight sm:text-3xl">F7 Conquerors</h2>
+      <p class="mt-4 text-text-muted">
+        I&rsquo;ve competed and organized with F7 Conquerors — an India-based CTF team active on
+        CTFtime since 2012. My active era was 2022–2023, around NECTF and the finals/quals
+        listed below.
+      </p>
+
+      <div class="mt-8">
+        <StatPanel stats={teamStats} />
+      </div>
+
+      <p class="mt-6 text-xs text-text-subtle">
+        Stats pulled from CTFtime (team 206244). Ranks are country-wide (India); the team has peaked at India #20 in 2016–2017.
+      </p>
+    </section>
+
+    <!-- Events list -->
+    <section class="mt-16">
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-text-subtle">Competed</p>
+      <h2 class="mt-2 text-2xl font-medium tracking-tight sm:text-3xl">
+        CTFs I&rsquo;ve played
+      </h2>
+      <p class="mt-4 text-text-muted">
+        A curated set during my active era — skewed toward international high-weight events.
+      </p>
+
+      <ul class="mt-8 divide-y divide-border border-y border-border">
+        {
+          eventsCompeted.map((e) => (
+            <li class="flex items-baseline justify-between gap-4 py-3 text-sm">
+              <span class="text-text">{e.name}</span>
+              <span class="flex items-baseline gap-3 text-text-subtle">
+                <span class="font-mono">w&nbsp;{e.weight}</span>
+                <span class="font-mono text-xs">{e.year}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- SIH 2022 -->
+    <section class="mt-16">
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-text-subtle">Hackathon</p>
+      <h2 class="mt-2 text-2xl font-medium tracking-tight sm:text-3xl">
+        Smart India Hackathon 2022 — Grand Finale
+      </h2>
+      <p class="mt-4 text-text-muted">
+        Built <strong class="font-medium text-text">Verifi</strong>, an offline OTP authentication
+        system, for a DRDO problem statement. The challenge was real: field authentication in
+        environments where connectivity is adversarial or absent. We designed a scheme that
+        worked with seeded secrets + time-based derivation, no live server call required.
+      </p>
+      <p class="mt-3 text-text-muted">
+        The project made it to the Grand Finale — the top shortlist out of thousands of
+        participating teams nationally.
+      </p>
+    </section>
+
+    <!-- Profiles -->
+    <section class="mt-16">
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-text-subtle">Profiles</p>
+      <h2 class="mt-2 text-2xl font-medium tracking-tight sm:text-3xl">Go dig</h2>
+
+      <ul class="mt-8 divide-y divide-border border-y border-border">
+        {
+          profiles.map((p) => (
+            <li>
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener"
+                class="group flex items-baseline justify-between gap-4 py-3 no-underline transition hover:bg-bg-subtle"
+              >
+                <span class="text-sm text-text group-hover:text-accent">{p.name}</span>
+                <span class="font-mono text-xs text-text-subtle">
+                  {p.handle}
+                  <span class="ml-1 inline-block translate-x-0 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100">
+                    →
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Back link -->
+    <div class="mt-16">
+      <a href="/" class="font-mono text-sm text-accent no-underline hover:underline underline-offset-4">
+        ← Back to home
+      </a>
+    </div>
+  </article>
+</BaseLayout>
