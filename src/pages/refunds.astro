@@ -1,0 +1,104 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+const effective = 'April 24, 2026';
+---
+
+<BaseLayout
+  title="Refunds & Cancellation"
+  description="Refund and cancellation policy for sponsorships of Nikky Amresh's open-source work via GitHub Sponsors."
+>
+  <article class="mx-auto max-w-prose px-4 pb-20 pt-12 sm:px-6 sm:pt-16 lg:px-8">
+    <header>
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-accent">Legal</p>
+      <h1 class="mt-2 text-3xl font-medium tracking-tight sm:text-4xl">
+        Refunds &amp; Cancellation
+      </h1>
+      <p class="mt-3 font-mono text-sm text-text-subtle">Effective {effective}</p>
+    </header>
+
+    <section class="prose prose-invert mt-10">
+      <p>
+        This page describes the refund and cancellation policy for
+        sponsorships of my open-source work. All sponsorships are processed
+        through <strong>GitHub Sponsors</strong> and its payment processor
+        (Stripe); I do not process or store your payment information
+        directly.
+      </p>
+
+      <h2>Cancellation of recurring sponsorships</h2>
+      <p>
+        You can cancel a recurring monthly sponsorship at any time from
+        your GitHub billing settings. Cancellation takes effect at the end
+        of the current billing cycle &mdash; you will not be charged again,
+        and no new payment is required from you to cancel.
+      </p>
+      <p>
+        Full step-by-step instructions are provided by GitHub at
+        <a href="https://docs.github.com/en/sponsors/sponsoring-open-source-contributors/managing-your-sponsorship" target="_blank" rel="noopener">
+          docs.github.com &mdash; Managing your sponsorship
+        </a>.
+      </p>
+
+      <h2>Refund requests</h2>
+      <p>
+        Because sponsorships are voluntary contributions rather than
+        purchases of a defined product, they are generally non-refundable
+        once processed. However, I will consider a refund in good faith in
+        the following cases:
+      </p>
+      <ul>
+        <li>The sponsorship was charged in error (duplicate charge, incorrect amount).</li>
+        <li>The sponsorship was made fraudulently or without authorization.</li>
+        <li>A recurring sponsorship charge was issued after a valid cancellation attempt.</li>
+        <li>Any other scenario where a refund is required under applicable consumer-protection law.</li>
+      </ul>
+      <p>
+        To request a refund, email
+        <a href="mailto:nikkyamresh8@gmail.com">nikkyamresh8@gmail.com</a>
+        within 14 days of the charge with:
+      </p>
+      <ul>
+        <li>Your GitHub username.</li>
+        <li>The approximate date and amount of the sponsorship.</li>
+        <li>A brief description of why you are requesting a refund.</li>
+      </ul>
+      <p>
+        I will respond within 5 business days. Approved refunds are issued
+        through GitHub / Stripe back to the original payment method and
+        typically appear within 5&ndash;10 business days, depending on your
+        bank or card issuer.
+      </p>
+
+      <h2>Chargebacks</h2>
+      <p>
+        If you initiate a chargeback with your bank or card issuer before
+        contacting me, I will not be able to process a refund directly;
+        the dispute will be resolved through GitHub and Stripe&rsquo;s
+        chargeback process. Please try emailing me first &mdash; it is
+        faster for both of us.
+      </p>
+
+      <h2>Changes to perks or availability</h2>
+      <p>
+        Sponsorship perks (such as early access to drafts or occasional
+        update emails) are offered on a best-effort basis and may change
+        over time. If a perk is materially reduced or discontinued and you
+        believe that justifies a refund, email me and I will review the
+        request in good faith.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Refund requests and questions:
+        <a href="mailto:nikkyamresh8@gmail.com">nikkyamresh8@gmail.com</a>.
+        See the <a href="/contact">contact page</a> for other ways to reach me.
+      </p>
+    </section>
+
+    <div class="mt-16">
+      <a href="/" class="font-mono text-sm text-accent no-underline hover:underline underline-offset-4">
+        ← Back to home
+      </a>
+    </div>
+  </article>
+</BaseLayout>

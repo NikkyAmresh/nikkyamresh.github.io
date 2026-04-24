@@ -1,0 +1,136 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+const effective = 'April 24, 2026';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="Privacy policy for nikkyamresh.me — what data is collected, how it is used, and your rights."
+>
+  <article class="mx-auto max-w-prose px-4 pb-20 pt-12 sm:px-6 sm:pt-16 lg:px-8">
+    <header>
+      <p class="font-mono text-2xs uppercase tracking-[0.18em] text-accent">Legal</p>
+      <h1 class="mt-2 text-3xl font-medium tracking-tight sm:text-4xl">
+        Privacy Policy
+      </h1>
+      <p class="mt-3 font-mono text-sm text-text-subtle">Effective {effective}</p>
+    </header>
+
+    <section class="prose prose-invert mt-10">
+      <p>
+        This Privacy Policy explains what information is collected when you
+        visit <strong>nikkyamresh.me</strong> or
+        <strong>nikkyamresh.github.io</strong> (the &ldquo;Site&rdquo;), how
+        it is used, and the choices you have. The Site is operated as an
+        individual by Nikky Amresh, based in Bangalore, India.
+      </p>
+
+      <h2>1. Information collected directly</h2>
+      <p>
+        The Site itself is a static website and does not require you to
+        create an account or submit a form. I do not run my own analytics,
+        tracking, or advertising on the Site.
+      </p>
+      <p>
+        If you email me, your email address and the contents of your message
+        are stored in my email inbox so that I can reply.
+      </p>
+
+      <h2>2. Information collected by hosting and third-party services</h2>
+      <ul>
+        <li>
+          <strong>Hosting</strong>. The Site is hosted on GitHub Pages.
+          GitHub may collect standard server logs (IP address, user agent,
+          referring URL, timestamp) as described in the
+          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.
+        </li>
+        <li>
+          <strong>Fonts and assets</strong>. Fonts are bundled locally via
+          <code>@fontsource-variable</code> and are not loaded from a
+          third-party CDN at runtime.
+        </li>
+        <li>
+          <strong>Sponsorship</strong>. If you sponsor my work, payments are
+          processed by GitHub Sponsors and their payment processor (Stripe).
+          I receive limited information from GitHub (such as your GitHub
+          handle, sponsorship tier, and amount). I do not receive or store
+          your payment-card information. See the
+          <a href="https://docs.github.com/en/sponsors" target="_blank" rel="noopener">GitHub Sponsors documentation</a>
+          and <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe Privacy Policy</a>
+          for details.
+        </li>
+      </ul>
+
+      <h2>3. How information is used</h2>
+      <p>Information is used only to:</p>
+      <ul>
+        <li>Operate, maintain, and secure the Site.</li>
+        <li>Reply to emails you send me.</li>
+        <li>
+          Fulfill sponsorship perks (such as sending an occasional update
+          email or listing sponsors on a public page, if you opted in).
+        </li>
+        <li>Comply with legal obligations.</li>
+      </ul>
+      <p>
+        I do not sell, rent, or trade personal information. I do not use
+        your information for advertising.
+      </p>
+
+      <h2>4. Cookies</h2>
+      <p>
+        The Site does not set tracking cookies. A single technical entry in
+        browser <code>localStorage</code> is used to remember your theme
+        preference (light/dark) across visits; it is stored only in your
+        browser and is not transmitted.
+      </p>
+
+      <h2>5. Retention</h2>
+      <p>
+        Emails are retained in my inbox for as long as reasonably useful to
+        continue the conversation, and then archived or deleted. Information
+        about sponsorships is retained for as long as required by GitHub,
+        Stripe, and applicable tax and accounting law.
+      </p>
+
+      <h2>6. Your rights</h2>
+      <p>
+        Depending on where you live, you may have rights to access, correct,
+        or delete personal information that I hold about you. To exercise
+        these rights, email
+        <a href="mailto:nikkyamresh8@gmail.com">nikkyamresh8@gmail.com</a>.
+      </p>
+      <p>
+        Rights related to payment information are handled by GitHub Sponsors
+        and Stripe under their respective privacy policies, as I do not
+        store that data.
+      </p>
+
+      <h2>7. Children</h2>
+      <p>
+        The Site is not directed at children under 13, and I do not
+        knowingly collect personal information from children under 13.
+      </p>
+
+      <h2>8. Changes to this policy</h2>
+      <p>
+        This policy may be updated from time to time. The
+        &ldquo;Effective&rdquo; date at the top of this page reflects the
+        most recent revision.
+      </p>
+
+      <h2>9. Contact</h2>
+      <p>
+        Questions about this policy can be sent to
+        <a href="mailto:nikkyamresh8@gmail.com">nikkyamresh8@gmail.com</a>,
+        or see the <a href="/contact">contact page</a>.
+      </p>
+    </section>
+
+    <div class="mt-16">
+      <a href="/" class="font-mono text-sm text-accent no-underline hover:underline underline-offset-4">
+        ← Back to home
+      </a>
+    </div>
+  </article>
+</BaseLayout>
