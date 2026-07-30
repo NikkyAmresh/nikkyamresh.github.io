@@ -1,6 +1,6 @@
 export const site = {
   name: 'Nikky Amresh',
-  role: 'SDE 2 · Platforms Engineering',
+  role: 'Senior SDE · Platforms Engineering',
   company: 'Educational Initiatives (Mindspark)',
   location: 'Bangalore, India',
   url: 'https://nikkyamresh.github.io',
@@ -18,7 +18,7 @@ export const site = {
     { label: 'Resume', href: '/resume.pdf', external: true },
   ],
   description:
-    'Backend engineer with 4+ years full-time experience. Currently SDE 2 at Mindspark — backend for an adaptive learning platform with 500,000+ students. I ship VS Code extensions, write C++ plugins, and build AI tooling ahead of the curve.',
+    'Backend engineer with 4+ years full-time experience. Currently Senior SDE at Mindspark — backend for an adaptive learning platform with 500,000+ students. I ship VS Code extensions, write C++ plugins, and build AI tooling ahead of the curve.',
 } as const;
 
 export type Site = typeof site;
