@@ -19,3 +19,12 @@ pnpm-debug.log*
 .vscode/
 .idea/
 .DS_Store
+node_modules
+.venv
+venv
+build
+dist
+.next
+.dart_tool
+__pycache__
+*.log
