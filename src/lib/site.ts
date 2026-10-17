@@ -15,7 +15,7 @@ export const site = {
     { label: 'Projects', href: '/#projects' },
     { label: 'Security', href: '/security' },
     { label: 'Writing', href: '/writing' },
-    { label: 'Resume', href: '/resume.pdf', external: true },
+    { label: 'Resume', href: '/Nikky%20Amresh%20-%20Sr.%20SDE.pdf', external: true },
   ],
   description:
     'Senior Software Engineer with 4+ years of experience in Python and Node.js. Backend for Mindspark, an adaptive learning platform with 500,000+ students, plus generative AI products: AI agents, MCP servers, a voice assistant and a mobile app live on both stores.',
