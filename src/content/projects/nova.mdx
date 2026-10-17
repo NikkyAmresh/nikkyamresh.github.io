@@ -1,0 +1,43 @@
+---
+title: Nova
+tagline: A self-hosted voice assistant you talk to from the browser. Real-time speech to text, LLM reply and spoken answer, with barge-in when you interrupt.
+stack: [Python, Pipecat, FastAPI, WebSockets, Whisper, Piper TTS, Docker]
+status: active
+featured: true
+order: 4
+links:
+  demo: https://voice.algofunds.in
+cover:
+  src: /assets/projects/nova-og.jpg
+date: 2026-10-12
+---
+
+## What it does
+
+Open the page, talk, and Nova answers out loud. It can set, list and cancel reminders by voice
+("every weekday at 9 remind me to stand up"), stored in [Kitten](/projects/kitten) through its MCP
+endpoint and delivered as phone notifications.
+
+## Architecture
+
+| Part | Service |
+| --- | --- |
+| Speech to text | Whisper large-v3-turbo (Groq) |
+| Brain | open-weight LLM on Groq |
+| Voice | Piper, running on the CPU |
+| Pipeline | Pipecat over a FastAPI WebSocket |
+
+The browser streams 16 kHz PCM over a WebSocket and plays 24 kHz PCM back, so it runs behind a
+Cloudflare tunnel with no open ports.
+
+## Interesting problems I solved
+
+**Barge-in.** When you start talking, the bot stops mid-sentence and the page drops any queued
+audio, so conversations feel natural instead of turn-based.
+
+**Running for free.** Every part runs on free tiers or the CPU, with an access code so a public URL
+cannot burn the API quota.
+
+## Links
+
+- [Live app](https://voice.algofunds.in) (access code required)

@@ -18,7 +18,7 @@ export const site = {
     { label: 'Resume', href: '/resume.pdf', external: true },
   ],
   description:
-    'Backend engineer with 4+ years full-time experience. Currently Senior SDE at Mindspark — backend for an adaptive learning platform with 500,000+ students. I ship VS Code extensions, write C++ plugins, and build AI tooling ahead of the curve.',
+    'Senior Software Engineer with 4+ years of experience in Python and Node.js. Backend for Mindspark, an adaptive learning platform with 500,000+ students, plus generative AI products: AI agents, MCP servers, a voice assistant and a mobile app live on both stores.',
 } as const;
 
 export type Site = typeof site;

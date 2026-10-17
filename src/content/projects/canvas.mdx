@@ -1,0 +1,42 @@
+---
+title: Canvas
+tagline: A collaborative infinite canvas where every card is one turn of an AI conversation, with branching, live presence, comments and an MCP endpoint for external agents.
+stack: [TypeScript, Node.js, React, PostgreSQL, Docker, MCP]
+status: active
+featured: true
+order: 2
+links:
+  demo: https://canvas.algofunds.in
+cover:
+  src: /assets/projects/canvas-og.jpg
+date: 2026-09-23
+---
+
+## The problem
+
+Chat interfaces are a single scrolling thread. Real thinking branches: you try two directions,
+compare them, and come back. And when you want a teammate or another agent to pick up the work,
+there is no good way to hand over the whole picture.
+
+## What it does
+
+- **Every card is one AI turn.** Branch from any card, collapse a branch into one card, and let
+  **Arrange** lay the board out in layers along its threads.
+- **Built for teams.** Boards live in spaces with members, can be shared with individuals or made
+  public read-only, and everyone sees each other's changes live.
+- **Comments, mentions and presence.** Pin comment threads to cards, `@mention` anyone who can open
+  the board, and see who is active, idle or away.
+- **Hand off.** `/handoff` writes a brief for another agent from the whole board; the non-AI
+  Hand off packs the board as-is into one brief any agent can work from.
+- **MCP for agents.** Create an agent identity with edit or comment rights and connect Claude Code,
+  Cursor or any MCP client to work on boards directly.
+
+## Architecture
+
+- Node.js API with a Vite + React front end, PostgreSQL 17 in Docker.
+- Real-time sync for cards, threads and presence across every viewer of a board.
+- Email verification and notifications through Resend or SMTP.
+
+## Links
+
+- [Website and live demo](https://canvas.algofunds.in)

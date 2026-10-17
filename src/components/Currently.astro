@@ -3,19 +3,19 @@ import SectionHeading from '@/components/SectionHeading.astro';
 
 const highlights = [
   {
-    title: 'QT report generation: 2m 16s → 18.9s (86% faster)',
-    detail:
-      'Profiled the report pipeline, identified the dominant cost (repeated per-student queries), refactored to a single batched aggregation. Shipped the win quietly.',
-  },
-  {
-    title: 'Built MCP (Model Context Protocol) servers for dev workflows',
-    detail:
-      'Jira triage, PR review/comment automation, commit-log analysis, and LLM-backed Confluence ops — running in production since early 2026, before most teams had touched MCP.',
-  },
-  {
     title: 'Owned backend for the Computational Thinking product',
     detail:
       'Amazon Feature Engineering partnership. Designed APIs, shipped features to 100,000+ students, handled checkpoint lifecycle + impact tracking end-to-end.',
+  },
+  {
+    title: 'AI automation for the engineering team',
+    detail:
+      'MCP servers for Jira triage, PR review, commit analysis and Confluence, plus a debugging tool in Python and TypeScript that reads ELK logs, tickets and code and suggests the likely root cause and fix.',
+  },
+  {
+    title: 'Mira Platform and the Mindspark Control Panel',
+    detail:
+      'Microservices for auth, SMS notifications, approval workflows and event scheduling on a shared error-handling framework, a Pre-Post Assessment System, and a control panel that automates school setup and order management.',
   },
 ];
 ---

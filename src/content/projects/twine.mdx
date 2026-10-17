@@ -1,0 +1,41 @@
+---
+title: Twine
+tagline: A private, end-to-end encrypted app for couples to plan dates, keep a wishlist, save photo memories and share a watchlist. Live on Google Play and the App Store.
+stack: [Flutter, Dart, Cloudflare Workers, D1, R2, Durable Objects, libsodium]
+status: shipped
+featured: true
+order: 5
+links:
+  demo: https://twine.algofunds.in
+cover:
+  src: /assets/projects/twine-og.jpg
+date: 2026-07-07
+---
+
+## What it does
+
+One shared space for two people, on iOS and Android from a single codebase.
+
+- **Pairing** with a 6-character invite code.
+- **Dates:** shared calendar, propose and approve flow, surprise dates, native calendar sync, and
+  create-a-date-from-a-picture using an LLM.
+- **Wishes** with categories, locations and map view; a **journal** of photo memories; a shared
+  **watchlist** of shows and movies.
+- Push and in-app notifications.
+
+## Privacy
+
+End-to-end encrypted. Content is encrypted on the two devices with libsodium, so the server only
+holds ciphertext and routing metadata. Recovery uses a 12-word phrase plus partner re-pair.
+
+## Architecture
+
+- Flutter client; Firebase Auth for identity only.
+- Cloudflare Workers with D1 for data, R2 for encrypted media and Durable Objects for real-time state.
+- Released through both stores, currently on version 1.4.
+
+## Links
+
+- [Website](https://twine.algofunds.in)
+- [Google Play](https://play.google.com/store/apps/details?id=app.twine)
+- [App Store](https://apps.apple.com/app/id6780700182)

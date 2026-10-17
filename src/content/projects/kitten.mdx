@@ -1,0 +1,53 @@
+---
+title: Kitten
+tagline: An AI assistant platform that triages email, keeps typed memories, sends reminders to my phone, and exposes all of it to other AI agents through a hosted MCP server.
+stack: [Python, FastAPI, PostgreSQL + pgvector, Groq, MCP, Flutter, Docker]
+status: active
+featured: true
+order: 1
+links:
+  demo: https://kitten.algofunds.in
+cover:
+  src: /assets/projects/kitten-og.jpg
+date: 2026-07-22
+---
+
+## The problem
+
+Assistants that run everything through a model are unpredictable: a rule like "stop showing me
+promo mail" becomes a hint the model may or may not follow. I wanted an assistant where the reliable
+parts are code and the model only handles what code cannot settle.
+
+## What it does
+
+- **Email triage.** Gmail is polled and filtered by category labels, bulk headers and my own rules
+  before any model sees it. Only the leftovers reach the LLM, and it cannot raise an urgent push
+  notification below 0.8 confidence.
+- **Memories as configuration.** Every memory has a type. A `rule` memory carries a validated JSON
+  body that the pipeline enforces directly, so it acts as a filter, not a suggestion.
+- **Reminders and tasks** delivered as push notifications through a Flutter app.
+- **A hosted MCP server**, so other agents (including my voice assistant, Nova) can read and write
+  memory, tasks and reminders.
+- **A job pipeline** with a web portal and a Chrome extension that captures postings and fills
+  application forms. It never clicks Submit.
+
+## Architecture
+
+- FastAPI API container plus a worker container for the scheduler and job queue, deployed with
+  Docker Compose on an ARM VM behind a Cloudflare tunnel.
+- PostgreSQL with pgvector, using local embeddings (bge-small, 384 dimensions) for semantic search.
+- All LLM calls go through one gateway with request and token rate limits shared across processes,
+  and schema-validated JSON output with a per-purpose circuit breaker.
+
+## Interesting problems I solved
+
+**A clock that does not write rows.** Reminder and notification sweeps wake on the earliest real due
+time and on Postgres `LISTEN/NOTIFY`, instead of polling a jobs table, so the queue only holds real
+work and its volume is measured per type per day.
+
+**Failing safe.** When the model is unavailable, mail is kept, never guessed at.
+
+## Links
+
+- [Website](https://kitten.algofunds.in)
+- [Android beta](https://play.google.com/apps/testing/in.algofunds.assistant_app)
