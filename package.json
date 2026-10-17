@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "postbuild": "node scripts/resume-alias.mjs"
   },
   "dependencies": {
     "astro": "^4.16.0",
