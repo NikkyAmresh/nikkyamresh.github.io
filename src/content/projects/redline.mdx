@@ -1,0 +1,63 @@
+---
+title: Redline
+tagline: Review Claude Code plans like a Google Doc and redline its prototypes like a design. Inline comments and suggested edits land back in the live session.
+stack: [Python (stdlib), JavaScript, Claude Code plugin, Mermaid, Git]
+status: shipped
+featured: true
+order: 1
+links:
+  github: https://github.com/NikkyAmresh/redline
+  demo: https://redline.algofunds.in
+cover:
+  src: /assets/projects/redline-plan-viewer.png
+date: 2026-10-06
+---
+
+## The problem
+
+Claude Code&rsquo;s plan mode prints a wall of text in the terminal and offers one accept or
+reject. Feedback gets typed from memory (&ldquo;in step 4&hellip;&rdquo;) and scrolls away.
+Prototypes are worse: you spot the problem in a second, then spend minutes describing where it
+is to an agent that cannot see your screen.
+
+## What it does
+
+Redline moves both into the browser and sends your feedback straight back to the Claude session
+that produced them.
+
+- **Plans as real documents.** Versioned markdown per project workspace, rendered with mermaid
+  diagrams, tables and phase checklists. Select any sentence to comment or suggest an edit.
+- **Prototypes you can play.** Claude builds a clickable dummy app; you press `C` and click any
+  component to pin a comment. Pins anchor to stable `data-rl` ids, so they survive edits.
+- **An async loop.** Batch your notes, press &ldquo;Send to Claude&rdquo;. An inbox watcher inside
+  the session picks them up, Claude applies them, bumps the version and the page updates live.
+- **Full history.** Every version is a commit in its own local git repo: diff, restore or
+  download any of them. Plans survive `/clear`, compaction and restarts.
+
+Distributed as a Claude Code plugin through my own marketplace
+([claude-plugins](https://github.com/NikkyAmresh/claude-plugins)).
+
+## Architecture
+
+- **One Python file, zero dependencies.** `server.py` is a stdlib HTTP server serving plans,
+  prototypes, feedback and inbox signals.
+- **Single instance per data directory**, enforced with a file lock and a health endpoint that
+  identifies itself, so concurrent sessions never start two servers or mistake another app on the
+  port for Redline.
+- **Precise anchors.** Each comment stores source lines and character offsets plus a readable path
+  (`Phase 2 › item 2`) while the markdown stays untouched, so repeated phrases never get mixed up.
+
+## Interesting problems I solved
+
+**Security for a tool that drives an agent with shell access.** The server binds to loopback only,
+rejects foreign `Host` headers (DNS rebinding), accepts JSON POSTs from its own origin only, and runs
+prototypes in a sandboxed iframe with an opaque origin so prototype code can never call the API.
+
+**Feeding back without derailing the session.** Feedback arrives as signal files the session&rsquo;s
+watcher claims, so Claude keeps its current work. &ldquo;Run independently&rdquo; hands a batch to
+a background agent to keep the main context clean.
+
+## Links
+
+- [Website](https://redline.algofunds.in)
+- [GitHub](https://github.com/NikkyAmresh/redline)

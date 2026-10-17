@@ -1,0 +1,56 @@
+---
+title: Zoomcast
+tagline: macOS screen recorder that captures clean video first and adds backgrounds, custom cursors, click ripples and auto zoom afterwards, all editable until export.
+stack: [Swift, ScreenCaptureKit, AVFoundation, Core Image, fastlane]
+status: shipped
+featured: true
+order: 4
+links:
+  demo: https://zoomcast.algofunds.in
+cover:
+  src: /assets/projects/zoomcast-og.png
+date: 2026-09-07
+---
+
+## The problem
+
+Polished screen-recording tools bake the cursor, zoom and background into the video at capture
+time. If the zoom lands wrong, you record again. I wanted to record once and decide later.
+
+## What it does
+
+- **One shortcut (⌘⇧2)** to record a display, a window or an area, with system audio and mic as
+  separate tracks. Pause cuts the paused time out of the movie.
+- **An editor** for background (wallpaper, gradients, image), frame (aspect, padding, radius,
+  shadow), cursor (style, size, smoothing, click ripples) and auto zoom segments you drag on a
+  timeline.
+- **Export** to MP4 (HEVC or H.264, 720p to 4K) or GIF. Preview and export share one renderer, so
+  what you see is what you get.
+
+## Architecture
+
+- **Capture:** ScreenCaptureKit with the cursor excluded, frames written straight to HEVC with
+  AVAssetWriter. Audio stored as Float32 so both tracks survive intact until export.
+- **Event timeline:** global mouse monitors log cursor positions, clicks and scrolls; each cursor
+  shape is stored once; the front window frame is sampled 10× per second. All timestamps share the
+  video&rsquo;s host clock.
+- **Rendering:** an AVFoundation video composition whose per-frame handler runs a Core Image
+  compositor (background, shadow, camera crop, rounded frame, cursor, ripples), used by both
+  AVPlayer preview and export.
+- **Format:** a `.zoomcast` package holding `raw.mov`, `events.json`, cursor PNGs and an editable
+  `project.json`.
+
+## Interesting problems I solved
+
+**Auto zoom that feels hand-made.** Clicks are clustered into camera keyframes: ease in 350 ms before
+the first click, pan between clicks, hold 1.5 s, ease out. Segments stay editable.
+
+**Pause without drift.** On resume, every later timestamp (video, audio and event timeline alike) is
+shifted back by the paused duration, so cursor overlays never slip out of sync.
+
+**Two distribution channels from one codebase:** a notarized Developer ID DMG and a sandboxed Mac
+App Store target, with the release pipeline automated through fastlane and Cloudflare R2.
+
+## Links
+
+- [Website and download](https://zoomcast.algofunds.in)

@@ -1,0 +1,38 @@
+---
+title: ScreenLock
+tagline: Tiny macOS menu bar app that locks keyboard, mouse and trackpad with one shortcut while keeping the Mac awake, so overnight builds and agents keep running.
+stack: [Swift, AppKit, Accessibility API, Swift Package Manager]
+status: shipped
+featured: true
+order: 10
+links:
+  demo: https://screenlock.algofunds.in
+cover:
+  src: /assets/projects/screenlock-og.jpg
+date: 2026-08-25
+---
+
+## The problem
+
+The real macOS lock screen puts the machine to sleep, which kills long-running agents, builds and
+downloads. I wanted to lock the input, not the Mac: wipe the keyboard, hand the screen to someone,
+or let the cat walk across the desk without anything happening.
+
+## What it does
+
+- **One shortcut** (default ⌃[) locks keyboard, mouse and trackpad; the same shortcut unlocks.
+- **Keeps the system awake** while locked; the display can still sleep.
+- A slight dim and a centred lock badge show the state, while everything underneath keeps running.
+- Optional emergency unlock, launch at login, configurable dim level.
+
+## How it is built
+
+- A plain Swift package wrapped into an `.app` bundle by a build script; no Xcode project needed for
+  the direct build. A separate sandboxed App Store target is generated with xcodegen.
+- Input interception through Accessibility; nothing typed is read or stored.
+- Signed with Developer ID and notarized, so it opens without warnings. Ad-hoc builds pin the
+  designated requirement to the bundle id so the Accessibility grant survives rebuilds.
+
+## Links
+
+- [Website and download](https://screenlock.algofunds.in)

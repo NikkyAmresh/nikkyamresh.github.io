@@ -1,0 +1,56 @@
+---
+title: searche
+tagline: A search engine written from scratch in pure Python, with a positional inverted index, boolean and phrase queries, BM25F ranking, and an SSRF-safe crawler. No Lucene, no Elasticsearch.
+stack: [Python, Information Retrieval, BM25, WSGI, Docker, Cloudflare Tunnel]
+status: active
+featured: true
+order: 5
+links: {}
+cover:
+  placeholder: SE
+date: 2026-09-17
+---
+
+## The problem
+
+I use search infrastructure every day and wanted to understand it properly, not as a black box.
+So I am building every core piece by hand: tokenizer, stemmer, inverted index, query parser,
+retrieval, ranking, crawler. Libraries are allowed for plumbing only.
+
+## What it does (v0.5)
+
+```text
+Documents -> Tokenizer -> Positional Inverted Index -> Query Parser
+          -> Boolean / Phrase / Field Retrieval -> BM25 + title weight + phrase boost -> Top-K
+```
+
+- Full query language: `AND`, `OR`, `NOT`, grouping, exact phrases, `title:` / `body:` fields.
+- Paste a URL and the crawler indexes that site within seconds, searchable next to the built-in
+  collection.
+- A password-protected web UI that shows, per result, how many BM25 points each query term earned.
+
+## Results
+
+Measured on the Cranfield collection (1,400 documents, 225 queries), single thread, pure Python:
+
+| Metric | Value |
+| --- | --- |
+| Index build | ~0.4 s (3,000 to 4,000 docs/sec) |
+| Free-text latency | p50 2.9 ms, p95 6.5 ms |
+| Phrase latency | p50 0.2 ms, p95 0.8 ms |
+| Held-out quality | MAP 0.309, NDCG@10 0.388 vs TF-IDF 0.291 / 0.361 (p = 0.03) |
+
+## Interesting problems I solved
+
+**Tuning without fooling myself.** Title weight and phrase boost were tuned on odd-numbered queries
+and judged on even-numbered ones, with a paired randomization test to show the gain over TF-IDF is
+significant.
+
+**A crawler that cannot be aimed inward.** Every request and redirect must resolve to public
+addresses, and the connection is pinned to the checked address, closing the DNS-rebinding gap.
+It obeys robots.txt and crawl-delay, honours canonical, `noindex` and `nofollow`, and skips duplicate
+content.
+
+**Production hygiene in a hobby project.** scrypt password hashing, HMAC-signed session cookies, login
+throttling, a strict CSP, an append-only document store as the single source of truth, and a
+self-contained Docker image behind a Cloudflare tunnel.

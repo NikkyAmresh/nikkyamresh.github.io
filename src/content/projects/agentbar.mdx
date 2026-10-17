@@ -1,0 +1,61 @@
+---
+title: Agentbar
+tagline: A native macOS menu bar app for people running many Claude Code agents at once. See which one needs you, its ticket and current step, and answer without switching tabs.
+stack: [Swift, SwiftUI, AppKit, Python, AppleScript, Claude Code hooks]
+status: shipped
+featured: true
+order: 2
+links:
+  demo: https://agentbar.algofunds.in
+cover:
+  src: /assets/projects/agentbar-og.png
+date: 2026-09-24
+---
+
+## The problem
+
+When you run eight Claude Code sessions in Terminal tabs, the bottleneck is you. One agent has been
+waiting on a permission prompt for twenty minutes while you watch another one work. Cycling through
+tabs to find out who needs you does not scale.
+
+## What it does
+
+- **Menu bar status.** One mark per agent: orange needs you, plain working, yellow quiet, green
+  finished, plus a count of agents waiting on you.
+- **Dropdown (⌃⌥Space).** Agents grouped as Just finished, Needs you, Working and Idle, each with its
+  ticket, your last prompt and its latest step. Allow once, Deny or pick an answer right there.
+- **Dashboard.** One lane per agent with a 30-minute activity strip, grouped by status or ticket, and
+  an inspector with the pending ask, tasks, touched files and a message box.
+- **Native notifications** when an agent needs input, finishes, goes quiet or runs long.
+
+## Architecture
+
+```
+Claude Code hooks ──> agentbar-helper hook EVENT ──> ~/.agentbar/agents/SESSION.json
+Terminal.app (AppleScript) ──┐
+session logs ────────────────┴─> agentbar-helper watch ──> JSON lines ──> Agentbar (Swift)
+```
+
+- A **Python helper** records per-session state from eight Claude Code hook events and finds each
+  session&rsquo;s Terminal tab through the tty of its parent `claude` process.
+- A **watch** process merges hook state, Terminal tabs and session logs (title, git branch, cost)
+  and streams snapshots only when something changes.
+- The **Swift app** turns snapshots into the menu bar, dropdown, dashboard and notifications.
+  Tickets are matched against title, branch and prompts.
+
+Everything stays on the Mac: no account, no server, no analytics.
+
+## Interesting problems I solved
+
+**Answering safely from outside the terminal.** Replies are typed into the tab through System Events.
+Before typing, Agentbar re-checks that the prompt is still on screen; if it is not, nothing is typed.
+
+**Installing hooks without breaking anyone&rsquo;s setup.** Onboarding merges entries into
+`~/.claude/settings.json`, keeps existing hooks and saves a backup.
+
+**Shipping like a real product.** Universal build, Developer ID signing, notarization and a DMG from
+one `make dist`, with the landing page and download served from a Cloudflare Worker.
+
+## Links
+
+- [Website and download](https://agentbar.algofunds.in)
