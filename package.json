@@ -14,7 +14,7 @@
     "postbuild": "node scripts/resume-alias.mjs"
   },
   "dependencies": {
-    "astro": "^4.16.0",
+    "astro": "^7.1.0",
     "@astrojs/mdx": "^3.1.0",
     "@astrojs/sitemap": "^3.2.0",
     "@astrojs/tailwind": "^5.1.0",
