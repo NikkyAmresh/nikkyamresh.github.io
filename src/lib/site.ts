@@ -18,7 +18,7 @@ export const site = {
     { label: 'Resume', href: '/Nikky%20Amresh%20-%20Sr.%20SDE.pdf', external: true },
   ],
   description:
-    'Senior Software Engineer with 4+ years of experience in Python and Node.js. Backend for Mindspark, an adaptive learning platform with 500,000+ students, plus generative AI products: AI agents, MCP servers, a voice assistant and a mobile app live on both stores.',
+    'Senior Software Engineer with 3+ years of experience in Python and Node.js. Backend for Mindspark, an adaptive learning platform used by 670K+ students a year, plus generative AI products: AI agents, MCP servers, a voice assistant and a mobile app live on both stores.',
 } as const;
 
 export type Site = typeof site;
